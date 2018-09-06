@@ -1,25 +1,23 @@
 const express = require("express");
+const path = require("path");
+const exphbs = require("express-handlebars");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const passport = require("passport");
 
-// Loading User Model
 require("./models/User");
 
-// Passport Configuring
 require("./config/passport")(passport);
 
-// Loading Routes
+const index = require("./routes/index");
 const auth = require("./routes/auth");
+const myblogs = require("./routes/myblogs");
 
-// Loading Keys
 const keys = require("./config/keys");
 
-// Mapping global promises
 mongoose.Promise = global.Promise;
 
-// Connecting Mongoose
 mongoose
   .connect(
     keys.mongoURI,
@@ -32,9 +30,13 @@ mongoose
 
 const app = express();
 
-app.get("/", (req, res) => {
-  res.send("Its Working!");
-});
+app.engine(
+  "handlebars",
+  exphbs({
+    defaultLayout: "main"
+  })
+);
+app.set("view engine", "handlebars");
 
 app.use(cookieParser());
 app.use(
@@ -45,18 +47,19 @@ app.use(
   })
 );
 
-// Passport Middleware
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Setting global vars
 app.use((req, res, next) => {
   res.locals.user = req.user || null;
   next();
 });
 
-// Using Routes
+app.use(express.static(path.join(__dirname, "public")));
+
+app.use("/", index);
 app.use("/auth", auth);
+app.use("/myblogs", myblogs);
 
 const port = process.env.PORT || 7777;
 
