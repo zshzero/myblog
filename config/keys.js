@@ -1,5 +1,5 @@
 module.exports = {
-  mongoURI: "",
-  googleClientID: "",
-  googleClientSecret: ""
-};
+  mongoURI:'',
+  googleClientID:'',
+  googleClientSecret:''
+}

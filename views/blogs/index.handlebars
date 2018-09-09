@@ -1,1 +1,27 @@
-<h1>blogs</h1>
+<h1>Blogs</h1>
+<div class="row">
+  {{#each blogs}}
+  <div class="col s12 m4">
+    <div class="card">
+      <div class="card-image">
+        <a href="/blogs/edit/{{id}}" class="btn-floating halfway-fab red">
+          <i class="fa fa-pencil"></i>
+        </a>
+      </div>
+      <div class="card-content center-align">
+        <h5>{{title}}</h5>
+        <p class="story-text">{{stripTags (truncate body 150)}}</p>
+        <br>
+        <div class="chip">
+          <img src="{{user.image}}"> {{user.firstName}} {{user.lastName}}
+        </div>
+      </div>
+      <div class="card-action center-align">
+        <a class="btn grey" href="/blogs/show/{{id}}">Read More</a>
+      </div>
+    </div>
+  </div>
+  {{else}}
+  <p>No Blogs found</p>
+  {{/each}}
+</div>
