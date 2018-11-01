@@ -44,4 +44,4 @@ const StorySchema = new Schema({
   }
 });
 
-mongoose.model("blogs", StorySchema, "blogs");
+mongoose.model("stories", StorySchema, "stories");
